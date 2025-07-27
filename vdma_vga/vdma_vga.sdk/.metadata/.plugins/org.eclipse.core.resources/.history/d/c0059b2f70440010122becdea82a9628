@@ -1,0 +1,140 @@
+#include "xparameters.h"
+#include "xil_cache.h"
+#include "img.h"
+#include <stdbool.h>
+#include "xgpiops.h"
+#include "sleep.h"
+
+//vdma 0 display vga
+#define VDMA_ADDR XPAR_AXI_VDMA_0_BASEADDR
+#define FRAME_ADDR    0x01000000
+#define FRAME_ADDR_2 (FRAME_ADDR + 0x00500000)
+//vdma 1 data to canny
+#define VDMA_1_ADDR XPAR_AXI_VDMA_1_BASEADDR
+
+#define HSIZE 1280
+#define VSIZE 1024
+
+// button
+#define DEBOUNCE_SAMPLE_COUNT 5
+#define DEBOUNCE_SAMPLE_DELAY_US 5000 // 5ms
+#define ps_button 50
+#define GPIO_DEVICE_ID XPAR_PS7_GPIO_0_DEVICE_ID
+XGpioPs Gpio;
+XGpioPs_Config *ConfigPtr;
+
+typedef struct{
+    unsigned char b; //8 bit
+    unsigned char g;
+    unsigned char r;
+    unsigned char pad;
+}Pixel;
+u32 debounce_button(u32 pin)
+{
+    u32 stable_count = 0;
+    u32 last_state = XGpioPs_ReadPin(&Gpio, pin);
+
+    while(1)
+    {
+        u32 current_state = XGpioPs_ReadPin(&Gpio, pin);
+        if(current_state == last_state)
+        {
+            stable_count++;
+            if(stable_count >= DEBOUNCE_SAMPLE_COUNT)
+            {
+                return current_state; // 按鈕穩定，回傳目前狀態
+            }
+        }
+        else
+        {
+            stable_count = 0;
+            last_state = current_state;
+        }
+
+        usleep(DEBOUNCE_SAMPLE_DELAY_US);
+    }
+}
+void write_original_data_to_memory(Pixel* pixel)
+{
+	int o = 0;
+	for(int i=0;i<VSIZE;i++){
+		for(int j=0;j<HSIZE;j++){
+			pixel->b = img_b[o];
+			pixel->g = img_g[o];
+			pixel->r = img_r[o];
+			pixel->pad = 0x00;
+
+			o++;
+			pixel++;
+		}
+	}
+	Xil_DCacheFlush();
+}
+int main()
+{
+    memset((void*)FRAME_ADDR,   0, 1280*1024*4);
+    memset((void*)FRAME_ADDR_2, 0, 1280*1024*4);
+	//----------------------------VDMA 0 init-------------------------------------------
+	*(volatile unsigned int *)(VDMA_ADDR + 0x00) = 0x01; // enable mm2s channel
+	*(volatile unsigned int *)(VDMA_ADDR + 0x5C) = FRAME_ADDR; // frame buffer start address
+	*(volatile unsigned int *)(VDMA_ADDR + 0x60) = FRAME_ADDR_2;
+	*(volatile unsigned int *)(VDMA_ADDR + 0x58) = HSIZE * 4; // frame delay
+	*(volatile unsigned int *)(VDMA_ADDR + 0x54) = HSIZE * 4; //HSIZE
+	*(volatile unsigned int *)(VDMA_ADDR + 0x50) = VSIZE; //VSIZE
+
+	Pixel* pixel = (volatile Pixel*)FRAME_ADDR;
+	write_original_data_to_memory(pixel);
+	//----------------------------VDMA 1 init-------------------------------------------
+	//read
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0x5C) = FRAME_ADDR; // frame buffer start address
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0x58) = HSIZE * 4; // frame delay
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0x54) = HSIZE * 4; //HSIZE
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0x50) = VSIZE; //VSIZE
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0x00) = 0x01; // enable mm2s channel
+	//write
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0xAC) = FRAME_ADDR_2; // frame buffer start address
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0xA8) = HSIZE * 4; // frame delay
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0xA4) = HSIZE * 4; //HSIZE
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0xA0) = VSIZE; //VSIZE
+	*(volatile unsigned int *)(VDMA_1_ADDR + 0x30) = 0x01; // enable s2mm channel
+	unsigned int status_s2mm = *(volatile unsigned int *)(VDMA_1_ADDR + 0x34);
+	unsigned int status_mm2s = *(volatile unsigned int *)(VDMA_1_ADDR + 0x04);
+
+	printf("MM2S status = 0x%08x\n", status_mm2s);
+	printf("S2MM status = 0x%08x\n", status_s2mm);
+
+//	int o2 = 0;
+//	Pixel* pixel_2 = (volatile Pixel*)FRAME_ADDR_2;
+//	for(int i=0;i<VSIZE;i++){
+//			for(int j=0;j<HSIZE;j++){
+//				pixel_2->b = img_b_2[o2];
+//				pixel_2->g = img_g_2[o2];
+//				pixel_2->r = img_r_2[o2];
+//				pixel_2->pad = 0x00;
+//
+//				o2++;
+//				pixel_2++;
+//			}
+//		}
+
+	//button init
+	ConfigPtr = XGpioPs_LookupConfig(GPIO_DEVICE_ID);
+	XGpioPs_CfgInitialize(&Gpio, ConfigPtr,ConfigPtr->BaseAddr);
+	XGpioPs_SetDirectionPin(&Gpio, ps_button, 0x0);
+	u32 buttonRead;
+	printf("test\n");
+	while(1){
+		u32 state = debounce_button(ps_button);
+
+		if(state == 1)
+		{
+			printf("Button Pressed\n");
+			*(volatile unsigned int *)(VDMA_ADDR + 0x28) = 1; // Frame 1 出畫
+			usleep(50000); // 等一點點時間，確保 frame cycle 過一輪
+			// 等待按鈕放開
+			while(debounce_button(ps_button) == 1);
+		}
+	}
+
+	return 0;
+}

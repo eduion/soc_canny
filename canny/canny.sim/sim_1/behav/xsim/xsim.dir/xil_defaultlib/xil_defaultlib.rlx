@@ -1,0 +1,16 @@
+0.6
+2019.1
+May 24 2019
+15:06:07
+D:/SoC_lab/canny/canny.sim/sim_1/behav/xsim/glbl.v,1558713910,verilog,,,,glbl,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sim_1/new/tb_Topmodule.v,1749923644,verilog,,,,tb_Topmodule,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sources_1/new/Topmodule.v,1749942723,verilog,,D:/SoC_lab/canny/canny.srcs/sources_1/new/canny_doubleThreshold.v,,Topmodule,,,,,,,,
+,,,,D:/SoC_lab/canny/canny.srcs/sources_1/new/canny_get_gradient.v,,canny_doubleThreshold,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sources_1/new/canny_get_gradient.v,1749933812,verilog,,D:/SoC_lab/canny/canny.srcs/sources_1/new/canny_nonLocalMaxValue.v,,canny_get_gradient,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sources_1/new/canny_nonLocalMaxValue.v,1749941857,verilog,,D:/SoC_lab/canny/canny.srcs/sources_1/new/cordic_pipline.v,,canny_nonLocalMaxValue,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sources_1/new/cordic_pipline.v,1749933765,verilog,,D:/SoC_lab/canny/canny.srcs/sources_1/new/cordic_sqrt.v,,cordic_pipline,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sources_1/new/cordic_sqrt.v,1749933030,verilog,,D:/SoC_lab/canny/canny.srcs/sources_1/new/fifo_ram.v,,cordic_sqrt,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sources_1/new/fifo_ram.v,1749904537,verilog,,D:/SoC_lab/canny/canny.srcs/sources_1/new/image_gaussian_filter.v,,fifo_ram,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sources_1/new/image_gaussian_filter.v,1749935467,verilog,,D:/SoC_lab/canny/canny.srcs/sources_1/new/matrix_generate_3x3.v,,image_gaussian_filter,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sources_1/new/matrix_generate_3x3.v,1749942349,verilog,,D:/SoC_lab/canny/canny.srcs/sources_1/new/one_column_ram.v,,matrix_generate_3x3,,,,,,,,
+D:/SoC_lab/canny/canny.srcs/sources_1/new/one_column_ram.v,1749904728,verilog,,D:/SoC_lab/canny/canny.srcs/sim_1/new/tb_Topmodule.v,,one_column_ram,,,,,,,,

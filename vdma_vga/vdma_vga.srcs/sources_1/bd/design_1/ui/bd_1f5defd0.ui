@@ -1,0 +1,67 @@
+{
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.19  2019-03-26 bk=1.5019 VDI=41 GEI=35 GUI=JA:9.0 non-TLS
+#  -string -flagsOSRD
+preplace port DDR -pg 1 -lvl 7 -x 2370 -y 350 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -lvl 7 -x 2370 -y 370 -defaultsOSRD
+preplace port sys_clock -pg 1 -lvl 0 -x -30 -y 1050 -defaultsOSRD
+preplace port vsync_out -pg 1 -lvl 7 -x 2370 -y 1030 -defaultsOSRD
+preplace port hsync_out -pg 1 -lvl 7 -x 2370 -y 1010 -defaultsOSRD
+preplace portBus vga_out -pg 1 -lvl 7 -x 2370 -y 940 -defaultsOSRD
+preplace inst v_tc_0 -pg 1 -lvl 4 -x 1390 -y 1000 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 5 -x 1820 -y 400 -defaultsOSRD
+preplace inst axi_vdma_0 -pg 1 -lvl 3 -x 960 -y 650 -defaultsOSRD
+preplace inst clk_wiz_0 -pg 1 -lvl 3 -x 960 -y 1050 -defaultsOSRD
+preplace inst axi_smc -pg 1 -lvl 4 -x 1390 -y 380 -defaultsOSRD
+preplace inst rst_ps7_0_100M -pg 1 -lvl 1 -x 170 -y 640 -defaultsOSRD
+preplace inst ps7_0_axi_periph -pg 1 -lvl 2 -x 520 -y 900 -defaultsOSRD
+preplace inst v_axi4s_vid_out_0 -pg 1 -lvl 5 -x 1820 -y 1050 -defaultsOSRD
+preplace inst rgb888_rgb444_0 -pg 1 -lvl 6 -x 2210 -y 940 -defaultsOSRD
+preplace inst util_vector_logic_0 -pg 1 -lvl 4 -x 1390 -y 1270 -defaultsOSRD
+preplace inst xlconstant_0 -pg 1 -lvl 4 -x 1390 -y 1130 -defaultsOSRD
+preplace inst axis_subset_converter_0 -pg 1 -lvl 4 -x 1390 -y 850 -defaultsOSRD
+preplace inst axi_dma_0 -pg 1 -lvl 3 -x 960 -y 260 -defaultsOSRD
+preplace inst xlconcat_0 -pg 1 -lvl 4 -x 1390 -y 210 -defaultsOSRD
+preplace inst ila_0 -pg 1 -lvl 4 -x 1390 -y 80 -defaultsOSRD
+preplace inst system_ila_0 -pg 1 -lvl 6 -x 2210 -y 150 -defaultsOSRD
+preplace inst Topmodule_0 -pg 1 -lvl 2 -x 520 -y 230 -defaultsOSRD
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 6 0 540 340 150 700 140 1190 480 1580 290 2060
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 6 -10 510 NJ 510 NJ 510 NJ 510 NJ 510 2050
+preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 1 5 350 310 670 420 1170 490 1560J 180 N
+preplace netloc sys_clock_1 1 0 3 NJ 1050 NJ 1050 NJ
+preplace netloc rgb888_rgb444_0_vga_out 1 6 1 NJ 940
+preplace netloc v_axi4s_vid_out_0_vid_active_video 1 5 1 2050 930n
+preplace netloc v_axi4s_vid_out_0_vid_data 1 5 1 2060 950n
+preplace netloc v_axi4s_vid_out_0_vid_hsync 1 5 2 NJ 1010 NJ
+preplace netloc v_axi4s_vid_out_0_vid_vsync 1 5 2 NJ 1030 NJ
+preplace netloc clk_wiz_0_clk_out1 1 3 2 1150 1190 1560J
+preplace netloc clk_wiz_0_locked 1 3 2 1170 1200 1570J
+preplace netloc v_axi4s_vid_out_0_vtg_ce 1 3 3 1190 1210 NJ 1210 2050
+preplace netloc util_vector_logic_0_Res 1 4 1 1580J 1130n
+preplace netloc xlconstant_0_dout 1 4 1 1550J 1030n
+preplace netloc xlconcat_0_dout 1 4 1 1570 210n
+preplace netloc axi_dma_0_mm2s_introut 1 3 1 1170 80n
+preplace netloc axi_dma_0_s2mm_introut 1 3 1 1180 100n
+preplace netloc processing_system7_0_DDR 1 5 2 NJ 350 NJ
+preplace netloc ps7_0_axi_periph_M01_AXI 1 2 1 680 210n
+preplace netloc axi_smc_M00_AXI 1 4 1 N 380
+preplace netloc axi_vdma_0_M_AXIS_MM2S 1 3 1 1140 640n
+preplace netloc processing_system7_0_FIXED_IO 1 5 2 NJ 370 NJ
+preplace netloc ps7_0_axi_periph_M00_AXI 1 2 1 690 600n
+preplace netloc axi_dma_0_M_AXI_S2MM 1 3 1 1150 220n
+preplace netloc v_tc_0_vtiming_out 1 4 1 N 990
+preplace netloc axi_vdma_0_M_AXI_MM2S 1 3 1 1200 340n
+preplace netloc axi_dma_0_M_AXI_MM2S 1 3 1 1160 200n
+preplace netloc processing_system7_0_M_AXI_GP0 1 1 5 360 380 NJ 380 1140J 280 NJ 280 2050
+preplace netloc axis_subset_converter_0_M_AXIS 1 4 1 1550 850n
+preplace netloc Topmodule_0_m_axis 1 2 4 690 -10 N -10 N -10 2060
+preplace netloc axi_dma_0_M_AXIS_MM2S 1 1 5 360 130 NJ 130 1140 0 N 0 2050
+levelinfo -pg 1 -30 170 520 960 1390 1820 2210 2370
+pagesize -pg 1 -db -bbox -sgen -150 -90 2510 1340
+"
+}
+{
+   "da_axi4_cnt":"19",
+   "da_board_cnt":"1",
+   "da_ps7_cnt":"1"
+}

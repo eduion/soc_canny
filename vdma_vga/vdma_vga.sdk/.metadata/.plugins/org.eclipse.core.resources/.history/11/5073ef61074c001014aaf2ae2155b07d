@@ -1,0 +1,158 @@
+#include "xparameters.h"
+#include "xil_cache.h"
+#include "img.h"
+#include <stdbool.h>
+#include "xgpiops.h"
+#include "sleep.h"
+#include "xaxidma.h"
+
+//vdma 0 display vga
+#define VDMA_ADDR XPAR_AXI_VDMA_0_BASEADDR
+#define FRAME_ADDR    0x01000000
+#define FRAME_ADDR_2 (FRAME_ADDR + 0x00500000)
+//dma
+#define DMA_ADDR XPAR_AXI_DMA_0_BASEADDR
+
+#define HSIZE 1280
+#define VSIZE 1024
+
+// button
+#define DEBOUNCE_SAMPLE_COUNT 5
+#define DEBOUNCE_SAMPLE_DELAY_US 5000 // 5ms
+#define ps_button 50
+#define GPIO_DEVICE_ID XPAR_PS7_GPIO_0_DEVICE_ID
+XGpioPs Gpio;
+XGpioPs_Config *ConfigPtr;
+
+typedef struct{
+    unsigned char b; //8 bit
+    unsigned char g;
+    unsigned char r;
+    unsigned char pad;
+}Pixel;
+u32 debounce_button(u32 pin)
+{
+    u32 stable_count = 0;
+    u32 last_state = XGpioPs_ReadPin(&Gpio, pin);
+
+    while(1)
+    {
+        u32 current_state = XGpioPs_ReadPin(&Gpio, pin);
+        if(current_state == last_state)
+        {
+            stable_count++;
+            if(stable_count >= DEBOUNCE_SAMPLE_COUNT)
+            {
+                return current_state; // 秙铆﹚肚ヘ玡篈
+            }
+        }
+        else
+        {
+            stable_count = 0;
+            last_state = current_state;
+        }
+
+        usleep(DEBOUNCE_SAMPLE_DELAY_US);
+    }
+}
+void write_original_data_to_memory(Pixel* pixel)
+{
+	int o = 0;
+	for(int i=0;i<VSIZE;i++){
+		for(int j=0;j<HSIZE;j++){
+			pixel->b = img_b[o];
+			pixel->g = img_g[o];
+			pixel->r = img_r[o];
+			pixel->pad = 0x00;
+
+			o++;
+			pixel++;
+		}
+	}
+	Xil_DCacheFlush();
+}
+
+int main()
+{
+    memset((void*)FRAME_ADDR,   0, 1280*1024*4);
+    memset((void*)FRAME_ADDR_2, 0, 1280*1024*4);
+	//----------------------------VDMA 0 init-------------------------------------------
+	*(volatile unsigned int *)(VDMA_ADDR + 0x00) = 0x01; // enable mm2s channel
+	*(volatile unsigned int *)(VDMA_ADDR + 0x5C) = FRAME_ADDR; // frame buffer start address
+	*(volatile unsigned int *)(VDMA_ADDR + 0x60) = FRAME_ADDR_2;
+	*(volatile unsigned int *)(VDMA_ADDR + 0x58) = HSIZE * 4; // frame delay
+	*(volatile unsigned int *)(VDMA_ADDR + 0x54) = HSIZE * 4; //HSIZE
+	*(volatile unsigned int *)(VDMA_ADDR + 0x50) = VSIZE; //VSIZE
+
+	Pixel* pixel = (volatile Pixel*)FRAME_ADDR;
+	write_original_data_to_memory(pixel);
+	//----------------------------DMA  init-------------------------------------------
+	XAxiDma AxiDma;  // DMA ン
+	XAxiDma_Config *CfgPtr;
+	CfgPtr = XAxiDma_LookupConfig(XPAR_AXIDMA_0_DEVICE_ID);  //  DMA ID
+	if (!CfgPtr) {
+	    xil_printf("No config found for DMA\r\n");
+	    return XST_FAILURE;
+	}
+
+	int status = XAxiDma_CfgInitialize(&AxiDma, CfgPtr);
+	if (status != XST_SUCCESS) {
+	    xil_printf("DMA init failed\r\n");
+	    return XST_FAILURE;
+	}
+
+	if (!XAxiDma_HasSg(&AxiDma)) {
+	    xil_printf("DMA is Simple mode\r\n");
+	} else {
+	    xil_printf("DMA is SG mode, this example only supports Simple mode\r\n");
+	    return XST_FAILURE;
+	}
+	XAxiDma_IntrDisable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
+	XAxiDma_IntrDisable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DMA_TO_DEVICE);
+	u8 *TxBufferPtr = (u8 *)FRAME_ADDR;
+	u8 *RxBufferPtr = (u8 *)FRAME_ADDR_2;
+	status = XAxiDma_SimpleTransfer(&AxiDma, (UINTPTR)RxBufferPtr, 1280*1024*4, XAXIDMA_DEVICE_TO_DMA);
+		if (status != XST_SUCCESS) {
+		    xil_printf("DMA S2MM transfer failed\r\n");
+		    return XST_FAILURE;
+		}
+	status = XAxiDma_SimpleTransfer(&AxiDma, (UINTPTR)TxBufferPtr, 1280*1024*4, XAXIDMA_DMA_TO_DEVICE);
+	if (status != XST_SUCCESS) {
+	    xil_printf("DMA MM2S transfer failed\r\n");
+	    return XST_FAILURE;
+	}
+	while (XAxiDma_Busy(&AxiDma, XAXIDMA_DMA_TO_DEVICE));
+	xil_printf("test\n");
+	while (XAxiDma_Busy(&AxiDma, XAXIDMA_DEVICE_TO_DMA));
+	Xil_DCacheFlushRange((UINTPTR)RxBufferPtr,1280*1024*4);
+	xil_printf("dma done\n");
+
+	//button init
+	ConfigPtr = XGpioPs_LookupConfig(GPIO_DEVICE_ID);
+	XGpioPs_CfgInitialize(&Gpio, ConfigPtr,ConfigPtr->BaseAddr);
+	XGpioPs_SetDirectionPin(&Gpio, ps_button, 0x0);
+	int flag = 0;
+	while(1){
+		u32 state = debounce_button(ps_button);
+
+		if(state == 1 && flag==0)
+		{
+			printf("Button Pressed\n");
+			*(volatile unsigned int *)(VDMA_ADDR + 0x28) = 1; // Frame 1 礶
+			flag = 1;
+			usleep(50000); // 单翴翴丁絋玂 frame cycle 筁近
+			// 单秙秨
+			while(debounce_button(ps_button) == 1);
+		}else
+		{
+			printf("Button Pressed\n");
+			*(volatile unsigned int *)(VDMA_ADDR + 0x28) = 0; // Frame 0 礶
+			flag = 0;
+			usleep(50000); // 单翴翴丁絋玂 frame cycle 筁近
+			// 单秙秨
+			while(debounce_button(ps_button) == 1);
+		}
+	}
+
+	return 0;
+}

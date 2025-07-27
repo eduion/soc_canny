@@ -1,0 +1,163 @@
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
+| Date         : Sun Jun 15 09:54:37 2025
+| Host         : Hi running 64-bit major release  (build 9200)
+| Command      : report_drc -file design_1_wrapper_drc_routed.rpt -pb design_1_wrapper_drc_routed.pb -rpx design_1_wrapper_drc_routed.rpx
+| Design       : design_1_wrapper
+| Device       : xc7z020clg484-1
+| Speed File   : -1
+| Design State : Fully Routed
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max violations: <unlimited>
+             Violations found: 24
++-----------+----------+----------------------------+------------+
+| Rule      | Severity | Description                | Violations |
++-----------+----------+----------------------------+------------+
+| DPIP-1    | Warning  | Input pipelining           | 1          |
+| DPOP-1    | Warning  | PREG Output pipelining     | 1          |
+| DPOP-2    | Warning  | MREG Output pipelining     | 1          |
+| DPOR-1    | Warning  | Asynchronous load check    | 4          |
+| REQP-1839 | Warning  | RAMB36 async control check | 3          |
+| REQP-1840 | Warning  | RAMB18 async control check | 10         |
+| RTSTAT-10 | Warning  | No routable loads          | 1          |
+| REQP-181  | Advisory | writefirst                 | 3          |
++-----------+----------+----------------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+DPIP-1#1 Warning
+Input pipelining  
+DSP design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0 input design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPOP-1#1 Warning
+PREG Output pipelining  
+DSP design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0 output design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-2#1 Warning
+MREG Output pipelining  
+DSP design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0 multiplier stage design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+DPOR-1#1 Warning
+Asynchronous load check  
+DSP design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0 output is connected to registers with an asynchronous reset (design_1_i/Topmodule_0/inst/u_canny_get_gradient/gra_path_reg[6]). This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPOR-1#2 Warning
+Asynchronous load check  
+DSP design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0 output is connected to registers with an asynchronous reset (design_1_i/Topmodule_0/inst/u_canny_get_gradient/gra_path_reg[7]). This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPOR-1#3 Warning
+Asynchronous load check  
+DSP design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0 output is connected to registers with an asynchronous reset (design_1_i/Topmodule_0/inst/u_canny_get_gradient/gra_path_reg[8]). This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPOR-1#4 Warning
+Asynchronous load check  
+DSP design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_cordic_sqrt/sqrt_out0 output is connected to registers with an asynchronous reset (design_1_i/Topmodule_0/inst/u_canny_get_gradient/gra_path_reg[9]). This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+REQP-1839#1 Warning
+RAMB36 async control check  
+The RAMB36E1 design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg/ENBWREN (net: design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/rd_pointer_reg[0]_0[0]) which is driven by a register (design_1_i/Topmodule_0/inst/u_canny_get_gradient/sobel_valid_t_reg[10]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#2 Warning
+RAMB36 async control check  
+The RAMB36E1 design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg/RSTRAMB (net: design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg_0) which is driven by a register (design_1_i/Topmodule_0/inst/u_canny_get_gradient/sobel_valid_t_reg[10]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#3 Warning
+RAMB36 async control check  
+The RAMB36E1 design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg/RSTRAMB (net: design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg_1) which is driven by a register (design_1_i/Topmodule_0/inst/u_canny_get_gradient/sobel_valid_t_reg[10]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#1 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg/ENBWREN (net: design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/o_valid) which is driven by a register (design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/nonLocalMaxValue_clken_d1_reg) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#2 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg/RSTRAMB (net: design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg_0) which is driven by a register (design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/nonLocalMaxValue_clken_d1_reg) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#3 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg/ENBWREN (net: design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg_ENBWREN_cooolgate_en_sig_8) which is driven by a register (design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/nonLocalMaxValue_clken_d1_reg) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#4 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg/RSTRAMB (net: design_1_i/Topmodule_0/inst/u_canny_doubleThreshold/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg_0) which is driven by a register (design_1_i/Topmodule_0/inst/u_canny_nonLocalMaxValue/nonLocalMaxValue_clken_d1_reg) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#5 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg/ENBWREN (net: design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/gaussian_output_valid) which is driven by a register (design_1_i/Topmodule_0/inst/u_image_gaussian_filter/matrix_generator_valid_d2_reg) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#6 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg/RSTRAMB (net: design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg_0) which is driven by a register (design_1_i/Topmodule_0/inst/u_image_gaussian_filter/matrix_generator_valid_d2_reg) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#7 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg/RSTRAMB (net: design_1_i/Topmodule_0/inst/u_canny_get_gradient/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg_1) which is driven by a register (design_1_i/Topmodule_0/inst/u_image_gaussian_filter/matrix_generator_valid_d2_reg) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#8 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_image_gaussian_filter/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_image_gaussian_filter/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg/ENBWREN (net: design_1_i/Topmodule_0/inst/u_image_gaussian_filter/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/rd_pointer_reg[0]_0[0]) which is driven by a register (design_1_i/Topmodule_0/inst/d_m_axis_valid_reg[2]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#9 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_image_gaussian_filter/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_image_gaussian_filter/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg/RSTRAMB (net: design_1_i/Topmodule_0/inst/u_image_gaussian_filter/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram0/fifo_buffer_reg_0) which is driven by a register (design_1_i/Topmodule_0/inst/d_m_axis_valid_reg[2]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1840#10 Warning
+RAMB18 async control check  
+The RAMB18E1 design_1_i/Topmodule_0/inst/u_image_gaussian_filter/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg has an input control pin design_1_i/Topmodule_0/inst/u_image_gaussian_filter/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/fifo_buffer_reg/RSTRAMB (net: design_1_i/Topmodule_0/inst/u_image_gaussian_filter/u_matrix_generate_3x3/u_one_column_ram/u_fifo_ram1/rd_pointer_reg[10]_0[0]) which is driven by a register (design_1_i/Topmodule_0/inst/d_m_axis_valid_reg[2]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+RTSTAT-10#1 Warning
+No routable loads  
+31 net(s) have no routable loads. The problem bus(es) and/or net(s) are dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gr1.gr1_int.rfwft/aempty_fwft_i, dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD7_CTL/ctl_reg[2:0], dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD7_CTL/ctl_reg_en_2[1], dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD1/ctl_reg_en_2[1], dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_capture[0], dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_drck[0], dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_runtest[0], dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwhf.whf/overflow, dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwhf.whf/overflow, dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i, dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwas.wsts/ram_full_i, dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/rd_rst_reg[0], dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_inst/s_bscan_tms, design_1_i/ila_0/inst/ila_core_inst/u_ila_regs/U_XSDB_SLAVE/s_daddr_o[13], design_1_i/system_ila_0/inst/ila_lib/inst/ila_core_inst/u_ila_regs/U_XSDB_SLAVE/s_daddr_o[13] (the first 15 of 29 listed).
+Related violations: <none>
+
+REQP-181#1 Advisory
+writefirst  
+Synchronous clocking is detected for BRAM (design_1_i/axi_dma_0/U0/I_PRMRY_DATAMOVER/GEN_MM2S_FULL.I_MM2S_FULL_WRAPPER/GEN_INCLUDE_MM2S_SF.I_RD_SF/I_DATA_FIFO/BLK_MEM.I_SYNC_FIFOGEN_FIFO/xpm_fifo_instance.xpm_fifo_sync_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+REQP-181#2 Advisory
+writefirst  
+Synchronous clocking is detected for BRAM (design_1_i/axi_dma_0/U0/I_PRMRY_DATAMOVER/GEN_S2MM_FULL.I_S2MM_FULL_WRAPPER/GEN_ENABLE_INDET_BTT_SF.I_INDET_BTT/I_DATA_FIFO/BLK_MEM.I_SYNC_FIFOGEN_FIFO/xpm_fifo_instance.xpm_fifo_sync_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+REQP-181#3 Advisory
+writefirst  
+Synchronous clocking is detected for BRAM (design_1_i/axi_vdma_0/U0/I_PRMRY_DATAMOVER/GEN_MM2S_FULL.I_MM2S_FULL_WRAPPER/GEN_INCLUDE_MM2S_SF.I_RD_SF/I_DATA_FIFO/BLK_MEM.I_SYNC_FIFOGEN_FIFO/xpm_fifo_instance.xpm_fifo_sync_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+

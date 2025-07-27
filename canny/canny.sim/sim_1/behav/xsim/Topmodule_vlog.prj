@@ -1,0 +1,13 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../canny.srcs/sources_1/new/fifo_ram.v" \
+"../../../../canny.srcs/sources_1/new/image_gaussian_filter.v" \
+"../../../../canny.srcs/sources_1/new/matrix_generate_3x3.v" \
+"../../../../canny.srcs/sources_1/new/one_column_ram.v" \
+"../../../../canny.srcs/sources_1/new/Topmodule.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
